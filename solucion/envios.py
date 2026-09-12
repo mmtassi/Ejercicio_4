@@ -5,7 +5,7 @@ class Pedido:
         if peso_kg <= 0:
             raise ValueError("El peso debe ser mayor que 0")
 
-        if distancia_km <= 0:
+        if distancia_km < 0:
             raise ValueError("La distancia debe ser mayor que 0")
 
         if not isinstance(politica_envio, PoliticaEnvio):
@@ -22,6 +22,14 @@ class Pedido:
         if not isinstance(nueva_politica, PoliticaEnvio):
             raise TypeError("La política debe ser una PoliticaEnvio")
         self._politica_envio = nueva_politica
+
+    @property
+    def peso_kg(self):
+        return self._peso_kg
+
+    @property
+    def distancia_km(self):
+        return self._distancia_km
 
 class PoliticaEnvio(ABC):
 
@@ -156,7 +164,3 @@ class PedidoConModificadores:
         return tuple(self._modificadores)
 
 
-pedido = PedidoConModificadores(2, 8, EnvioUrbano())
-pedido.agregar_modificador(Descuento(10))
-pedido.agregar_modificador(Seguro())
-print(pedido.costo_envio())
